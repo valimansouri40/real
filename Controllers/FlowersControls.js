@@ -61,7 +61,7 @@ exports.creatflower=async(req ,res) =>{
   // const url = req.protocol + '://' + req.get('host')
    const create= await Flower.create(req.body);
   //const create= await Flower.deleteMany()
-  console.log(create)
+
     res.status(200).json({
         status:'success',
         data:{
@@ -80,10 +80,10 @@ exports.getoneflower= async(req,res)=>{
     })
 }
 exports.updateoneflower=async(req,res)=>{
-  console.log(req.file)
+ 
     const param= req.params.id;
     const create= await Flower.findByIdAndUpdate(param, req.file);
-    console.log(create,'yuy');
+   
     res.status(200).json({
         status:'succes',
         data:{
