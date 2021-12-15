@@ -14,25 +14,22 @@ const createToken=id=>{
 
 const createSendToken = (user, statusCode, res) => {
   const token = createToken(user._id);
-  const cookieOptions = {
-    expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+  const cookieOption= {
+    expires:new Date(
+        Date.now() * 1 + 1000 * 60 * 60 * 24 * 90
     ),
-    httpOnly: true
-  };
-  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+    http:true
+}
+if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
 
-  res.cookie('jwt', token, cookieOptions);
+res.cookie('jwt', token, cookieOption);
 
-  // Remove password from output
-  user.password = undefined;
 
-  res.status(statusCode).json({
+
+res.status(statusCode).json({
     status:'succes',
-    data:{
-        sine: user
-    },
-    tkn:token
+    data: user,
+    token: token
 })
 };
 
@@ -63,20 +60,21 @@ exports.login=catchAsync(async (req,res,next)=>{
 })
 
 exports.protect=catchAsync(async(req,res,next)=>{
-  
+  console.log(req.cookies.jwt,'idhuishufh dsfuish')
     let token;
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
-    token = req.headers.authorization.split(' ')[1];
-  }else if(req.cookies.jwt){
+  // if (
+  //   req.headers.authorization &&
+  //   req.headers.authorization.startsWith('Bearer')
+  // ) {
+  //   token = req.headers.authorization.split(' ')[1];
+  // }else 
+  if(req.cookies.jwt){
     token = req.cookies.jwt
   }
     if(!token){
         next( new appError('not token',404));
     }
-    
+     
      const corect=await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
     
@@ -87,7 +85,7 @@ exports.protect=catchAsync(async(req,res,next)=>{
     if(!current){
         next( new appError('not id',404))
     }
-    
+      console.log(req.user)
          req.user=current
     
     next();
@@ -125,6 +123,7 @@ exports.existCookie=catchAsync(async (req,res)=>{
           if(req.cookies.jwt){
             jwt= true;
           }
+          console.log(jwt)
           res.status(200).json({
             status:'succes',
             cookie: jwt
