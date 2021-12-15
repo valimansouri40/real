@@ -4,7 +4,7 @@ const app = require('./app');
   
   dotenv.config({path: './congfig.env'})
   const db= process.env.DATABASE.replace('<password>',process.env.PASSWORD)
-  mongoose.connect(process.env.LOCAL_DATABASE,{
+  mongoose.connect(db,{
     useNewUrlParser:true,
     useCreateIndex:true,
     useFindAndModify:false,
@@ -14,8 +14,6 @@ const app = require('./app');
   
   
   
-
-
 
   const port= process.env.PORT || 8000;
   app.listen(port, () => {
