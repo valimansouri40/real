@@ -19,7 +19,7 @@ const createSendToken = (user, statusCode, res) => {
     ),
     http:true
 }
-if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+
 
 res.cookie('jwt', token, cookieOption);
 
@@ -84,7 +84,7 @@ exports.protect=catchAsync(async(req,res,next)=>{
     if(!current){
         next( new appError('not id',404))
     }
-      console.log(req.user)
+      
          req.user=current
     
     next();
