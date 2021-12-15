@@ -3,7 +3,6 @@ const jwt= require('jsonwebtoken');
 const {promisify}= require('util')
 const catchAsync= require('../Utils/catchAsync');
 const appError= require('../Utils/appError');
-const Flower = require('../Models/FlowerModels');
 
 
 const createToken=id=>{
@@ -60,7 +59,7 @@ exports.login=catchAsync(async (req,res,next)=>{
 })
 
 exports.protect=catchAsync(async(req,res,next)=>{
-  console.log(req.cookies.jwt,'idhuishufh dsfuish')
+ 
     let token;
   // if (
   //   req.headers.authorization &&
