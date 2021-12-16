@@ -89,32 +89,32 @@ exports.protect=catchAsync(async(req,res,next)=>{
     next();
 })
 
-exports.logedin=catchAsync(async(req,res,next)=>{
-        if(req.cookies.jwt){
+// exports.logedin=catchAsync(async(req,res,next)=>{
+//         if(req.cookies.jwt){
           
-          const id= await promisify(jwt.verify)(req.cookies.jwt, "vali0023201193-09105375122-1378") 
+//           const id= await promisify(jwt.verify)(req.cookies.jwt, "vali0023201193-09105375122-1378") 
 
           
 
-          const current= await User.findById(id.id);
-          if(!current){
-            next()
-          }
+//           const current= await User.findById(id.id);
+//           if(!current){
+//             next()
+//           }
         
-          res.locals.user= current;
-        }
-        next()
-})
+//           res.locals.user= current;
+//         }
+//         next()
+// })
 
-exports.logOut=catchAsync(async(req,res,next)=>{
-      if(req.cookies.jwt){
-        res.cookie('jwt','logedin',{
-          expires:new Date(Date.now() + 4 * 100 ),
-          httpOnly:true
-        })
-      }
-      next(new appError('can not logout',404))
-})
+// exports.logOut=catchAsync(async(req,res,next)=>{
+//       if(req.cookies.jwt){
+//         res.cookie('jwt','logedin',{
+//           expires:new Date(Date.now() + 4 * 100 ),
+//           httpOnly:true
+//         })
+//       }
+//       next(new appError('can not logout',404))
+// })
 
 exports.existCookie=catchAsync(async (req,res)=>{
         let jwt= false;
