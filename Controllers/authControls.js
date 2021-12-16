@@ -6,8 +6,8 @@ const appError= require('../Utils/appError');
 
 
 const createToken=id=>{
-    return jwt.sign({id}, "vali0023201193-09105375122-1378",{
-        expiresIn: "90d"
+    return jwt.sign({id}, process.env.JWT_SECRET,{
+        expiresIn: process.env.JWT_EXPIRES_IN
     })
 }
 
@@ -29,7 +29,8 @@ res.status(statusCode).json({
     status:'succes',
     data: user,
     token: token
-})};
+})
+};
 
 exports.Sineup=catchAsync(async(req,res)=>{
     const newUser = await User.create(req.body);
@@ -73,7 +74,7 @@ exports.protect=catchAsync(async(req,res,next)=>{
         next( new appError('not token',404));
     }
      
-     const corect=await promisify(jwt.verify)(token, "vali0023201193-09105375122-1378");
+     const corect=await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
     
      if(!corect){
@@ -89,32 +90,32 @@ exports.protect=catchAsync(async(req,res,next)=>{
     next();
 })
 
-// exports.logedin=catchAsync(async(req,res,next)=>{
-//         if(req.cookies.jwt){
+exports.logedin=catchAsync(async(req,res,next)=>{
+        if(req.cookies.jwt){
           
-//           const id= await promisify(jwt.verify)(req.cookies.jwt, "vali0023201193-09105375122-1378") 
+          const id= await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET) 
 
           
 
-//           const current= await User.findById(id.id);
-//           if(!current){
-//             next()
-//           }
+          const current= await User.findById(id.id);
+          if(!current){
+            next()
+          }
         
-//           res.locals.user= current;
-//         }
-//         next()
-// })
+          res.locals.user= current;
+        }
+        next()
+})
 
-// exports.logOut=catchAsync(async(req,res,next)=>{
-//       if(req.cookies.jwt){
-//         res.cookie('jwt','logedin',{
-//           expires:new Date(Date.now() + 4 * 100 ),
-//           httpOnly:true
-//         })
-//       }
-//       next(new appError('can not logout',404))
-// })
+exports.logOut=catchAsync(async(req,res,next)=>{
+      if(req.cookies.jwt){
+        res.cookie('jwt','logedin',{
+          expires:new Date(Date.now() + 4 * 100 ),
+          httpOnly:true
+        })
+      }
+      next(new appError('can not logout',404))
+})
 
 exports.existCookie=catchAsync(async (req,res)=>{
         let jwt= false;
