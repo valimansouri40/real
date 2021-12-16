@@ -6,8 +6,8 @@ const appError= require('../Utils/appError');
 
 
 const createToken=id=>{
-    return jwt.sign({id}, process.env.JWT_SECRET,{
-        expiresIn: process.env.JWT_EXPIRES_IN
+    return jwt.sign({id}, "vali0023201193-09105375122-1378",{
+        expiresIn: "90d"
     })
 }
 
@@ -29,8 +29,7 @@ res.status(statusCode).json({
     status:'succes',
     data: user,
     token: token
-})
-};
+})};
 
 exports.Sineup=catchAsync(async(req,res)=>{
     const newUser = await User.create(req.body);
@@ -74,7 +73,7 @@ exports.protect=catchAsync(async(req,res,next)=>{
         next( new appError('not token',404));
     }
      
-     const corect=await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+     const corect=await promisify(jwt.verify)(token, "vali0023201193-09105375122-1378");
 
     
      if(!corect){
