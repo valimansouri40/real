@@ -92,7 +92,7 @@ exports.protect=catchAsync(async(req,res,next)=>{
 exports.logedin=catchAsync(async(req,res,next)=>{
         if(req.cookies.jwt){
           
-          const id= await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET) 
+          const id= await promisify(jwt.verify)(req.cookies.jwt, "vali0023201193-09105375122-1378") 
 
           
 
