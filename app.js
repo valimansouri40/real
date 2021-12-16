@@ -6,12 +6,12 @@ const UserRoute= require('./Routes/UserRoutes');
 const OrderRoute= require('./Routes/OrderRoutes');
 const PassageRote= require('./Routes/PassageRotes');
 const cookieParser= require('cookie-parser');
-const cors= require('cors');
+
 const AppError=require('./Utils/appError');
 
 const app= express();
 app.use(express.json());
-app.use(cors());
+
 app.use(cookieParser())
 
 app.use((req,res,next)=>{
