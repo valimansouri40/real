@@ -16,7 +16,9 @@ const AppError=require('./Utils/appError');
 
 const app= express();
 app.use(express.json());
+app.use(cors());
 
+app.use(cookieParser())
 
 app.use(helmet());
 const limiter = rateLimit({
@@ -33,9 +35,7 @@ app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 app.use(xss());
 
 
-app.use(cors());
 
-app.use(cookieParser())
 
 app.use((req,res,next)=>{
     req.requestTime = new Date().toISOString();

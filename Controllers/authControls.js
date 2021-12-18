@@ -11,7 +11,7 @@ const createToken=id=>{
     })
 }
 
-const createSendToken = (user, statusCode, res) => {
+const createSendToken =async (user, statusCode, res) => {
   const token = createToken(user._id);
   const cookieOption= {
     expires:new Date(
@@ -21,7 +21,7 @@ const createSendToken = (user, statusCode, res) => {
 }
 
 
-res.cookie('jwt', token, cookieOption);
+await res.cookie('jwt', token, cookieOption);
 
 
 
