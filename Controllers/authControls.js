@@ -72,7 +72,6 @@ exports.protect=catchAsync(async(req,res,next)=>{
     if(!token){
         next( new appError('not token',404));
     }
-     
      const corect=await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
     
@@ -83,6 +82,7 @@ exports.protect=catchAsync(async(req,res,next)=>{
     if(!current){
         next( new appError('not id',404))
     }
+    
       
          req.user=current
     
