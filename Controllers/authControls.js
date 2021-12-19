@@ -61,13 +61,12 @@ exports.login=catchAsync(async (req,res,next)=>{
 exports.protect=catchAsync(async(req,res,next)=>{
  
     let token;
-  // if (
-  //   req.headers.authorization &&
-  //   req.headers.authorization.startsWith('Bearer')
-  // ) {
-  //   token = req.headers.authorization.split(' ')[1];
-  // }else 
-  if(req.cookies.jwt){
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    token = req.headers.authorization.split(' ')[1];
+  }else if(req.cookies.jwt){
     token = req.cookies.jwt
   }
     if(!token){
@@ -108,6 +107,7 @@ exports.logedin=catchAsync(async(req,res,next)=>{
 })
 
 exports.logOut=catchAsync(async(req,res,next)=>{
+  console.log(req.cookie.jwt, 'dsjifsiduhfuisd')
       if(req.cookies.jwt){
         res.cookie('jwt','logedin',{
           expires:new Date(Date.now() + 4 * 100 ),
@@ -119,10 +119,10 @@ exports.logOut=catchAsync(async(req,res,next)=>{
 
 exports.existCookie=catchAsync(async (req,res)=>{
         let jwt= false;
-          if(req.cookies.jwt){
+          if(req.headers.authorization.length > 15){
             jwt= true;
           }
-          console.log(jwt)
+          
           res.status(200).json({
             status:'succes',
             cookie: jwt
