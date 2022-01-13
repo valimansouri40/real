@@ -32,7 +32,7 @@ app.use(cookieParser());
 app.use(mongoSanitize());
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
-// Data sanitization against XSS
+
 app.use(xss());
 
 
